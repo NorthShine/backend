@@ -5,7 +5,7 @@ from user_auth.models import Profile
 
 class CompetencyLevel(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.TextField(default='Not specified')
+    name = models.TextField(default='Not specified', unique=True)
 
 
 class Competency(models.Model):
