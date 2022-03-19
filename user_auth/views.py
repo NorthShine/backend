@@ -1,3 +1,6 @@
+import json
+import hashlib
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions
@@ -19,3 +22,24 @@ class ListProfile(APIView):
         data = ProfileSerializer(instance=user)
         serialized = data.data
         return Response(data=serialized)
+
+
+class CreateUser(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        data = request.data
+        email = data['email']
+        role = data['role']
+        username = hashlib.md5(email.encode())
+        user = Profile.objects.create_user(
+            email=email,
+            username=username,
+            password='dummypassword',
+            role=role)
+        return Response(
+            data={
+                'username': str(user.username),
+                'email': user.email,
+                'role': user.role
+                })
