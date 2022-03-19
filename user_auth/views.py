@@ -39,7 +39,7 @@ class CreateUser(APIView):
             role=role)
         return Response(
             data={
-                'username': str(user.username),
+                'username': str(user.username.digest()),
                 'email': user.email,
                 'role': user.role
                 })

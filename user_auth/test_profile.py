@@ -18,6 +18,7 @@ def prepare_data():
     my_user.competencies.add(jun_backend)
     return my_user, jun_backend
 
+
 # test there is no exception raised
 @pytest.mark.django_db
 def test_user_serialization():
