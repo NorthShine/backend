@@ -24,6 +24,14 @@ class ListProfile(APIView):
         return Response(data=serialized)
 
 
+class ListProfiles(APIView):
+    def get(self, request):
+        users = Profile.objects.all()
+        data = ProfileSerializer(users, many=True)
+        serialized = data.data
+        return Response(data=serialized)
+
+
 class CreateUser(APIView):
     permission_classes = [permissions.AllowAny]
 

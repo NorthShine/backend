@@ -17,6 +17,7 @@ class SkillToken(models.Model):
     profile = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
+        related_name='skilltokens',
         null=True
     )
     tags = models.ManyToManyField(
