@@ -10,7 +10,7 @@ class Profile(AbstractUser):
         ('EMPLOYEE', 'employee'),
         ('EMPLOYER', 'employer')
     ]
-    # name = models.TextField(blank=True, null=True)
+    name = models.TextField(blank=True, null=True)
     role = models.CharField(
         max_length=10, choices=ROLES,
         default=EMPLOYEE)

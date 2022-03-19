@@ -1,10 +1,12 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from competitions.models import CompetencyLevel, Competency
+from competitions.models import CompetencyLevel, Competency, SkillToken
 from competitions.serializers import (
     CompetencyLevelSerializer,
-    CompetencySerializer)
+    CompetencySerializer,
+    SkillTokenSerializer)
+from user_auth.models import Profile
 
 
 class CreateCompetitionLevel(APIView):
@@ -43,3 +45,18 @@ class CreateCompetency(APIView):
         return Response(
             data={
                 'response': f'deleted competency with id {competency_id}'})
+
+
+class SkillTokenView(APIView):
+    def post(self, request):
+        data = request.data
+        instance = SkillTokenSerializer(data=data)
+        instance.create(data)
+        return Response(data=data)
+
+    def get(self, request, email):
+        profile = Profile.objects.get(email=email)
+        skill_token = SkillToken.objects.filter(profile=profile)
+        serialized = SkillTokenSerializer(skill_token, many=True)
+        serialized = serialized.data
+        return Response(data=serialized)

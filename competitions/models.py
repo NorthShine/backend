@@ -8,13 +8,22 @@ class CompetencyLevel(models.Model):
     name = models.TextField(default='Not specified', unique=True)
 
 
-# class SkillTag(models.Model):
-#     name = models.TextField()
+class SkillTag(models.Model):
+    name = models.TextField(unique=True)
 
 
-# class SkillToken(models.Model):
-#     name = models.TextField()
-#     tags = models.ManyToManyField(SkillTag)
+class SkillToken(models.Model):
+    name = models.TextField()
+    profile = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        null=True
+    )
+    tags = models.ManyToManyField(
+        SkillTag,
+        null=True,
+        blank=True,
+        related_name='tags')
 
 
 class Competency(models.Model):
@@ -29,7 +38,8 @@ class Competency(models.Model):
         null=True,
         on_delete=models.CASCADE,
         related_name='competencies')
-    # skilltoken = models.ForeignKey(
-    #     SkillToken,
-    #     on_delete=models.CASCADE,
-    #     related_name='competencies')
+    skilltoken = models.ForeignKey(
+        SkillToken,
+        null=True,
+        on_delete=models.CASCADE,
+        related_name='competencies')
