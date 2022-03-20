@@ -8,5 +8,6 @@ urlpatterns = [
     path('competency/level/', views.CreateCompetitionLevel.as_view()),
     path('skilltoken/', views.SkillTokenView.as_view()),
     path('skilltoken/<int:id', views.SkillTokenView.as_view()),
-    path('skilltoken/<str:email>/', views.SkillTokenView.as_view())
+    path('skilltoken/<str:email>/', views.SkillTokenView.as_view()),
+    path('search/', views.SkillTokenSearchView.as_view())
 ]
