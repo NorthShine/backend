@@ -72,7 +72,7 @@ class SkillTokenSerializer(serializers.ModelSerializer):
             skill_token.tags.add(tag)
 
         if existing_tags.exists():
-            skill_token.tags.add(existing_tags)
+            skill_token.tags.add(*list(existing_tags))
 
         skill_token.save()
 

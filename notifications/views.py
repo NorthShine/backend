@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from django.core.cache import cache
 
 from user_auth.models import Profile
+from notifications.logic import get_messages_for_recipient, send_message
 
 
 class RedisNotification(APIView):
@@ -22,3 +23,9 @@ class RedisNotification(APIView):
         message = data.get('message')
         cache.set(recipient, message)
         return Response(data={'msg': f'Message to {recipient} is sent'})
+
+
+class PersistentNotificationView(APIView):
+    def get(self, request, recipient_id):
+        messages = get_messages_for_recipient(recipient_id)
+        return Response(data=messages)
