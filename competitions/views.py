@@ -66,6 +66,11 @@ class SkillTokenView(APIView):
         skilltoken = SkillToken.objects.filter(id=id).delete()
         return Response(f'Deleted {skilltoken} objects with id: {id}')
 
+    def put(self, request, id):
+        data = request.data
+        instance = SkillTokenSerializer(data=data)
+        instance.update(data, id)
+
 
 class SkillTokenSearchView(APIView):
     def get(self, request):

@@ -57,13 +57,15 @@ class SkillTokenSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         name = validated_data.pop('name')
         tags = validated_data.pop('tags')
+        ext_id = validated_data.pop('ext_id')
         user_email = validated_data.pop('user_email')
         existing_tags = SkillTag.objects.filter(name__in=tags)\
             .values_list('id', flat=True)
         tags_to_create = list(filter(lambda x: x not in existing_tags, tags))
         user = Profile.objects.get(email=user_email)
 
-        skill_token = SkillToken.objects.create(name=name, profile=user)
+        skill_token = SkillToken.objects.create(
+            name=name, profile=user, ext_id=ext_id)
 
         for name in tags_to_create:
             tag, _ = SkillTag.objects.get_or_create(name=name)
@@ -78,4 +80,4 @@ class SkillTokenSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SkillToken
-        fields = ('id', 'name', 'tags', 'competencies')
+        fields = ('id', 'name', 'tags', 'competencies', 'ext_id')
