@@ -40,12 +40,17 @@ class CreateUser(APIView):
         data = request.data
         email = data['email']
         role = data['role']
+        about = data.get('about')
+        social = data.get('social', {})
+
         username = hashlib.md5(email.encode())
         user = Profile.objects.create_user(
             email=email,
             username=username,
             password='dummypassword',
-            role=role)
+            role=role,
+            about=about,
+            social=social)
         return Response(
             data={
                 'username': str(user.username.digest()),

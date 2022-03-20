@@ -15,3 +15,5 @@ class Profile(AbstractUser):
         max_length=10, choices=ROLES,
         default=EMPLOYEE)
     email = models.EmailField(unique=True)
+    about = models.TextField(null=True, blank=True)
+    social = models.JSONField(default=dict())
