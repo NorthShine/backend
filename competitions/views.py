@@ -6,6 +6,7 @@ from competitions.serializers import (
     CompetencyLevelSerializer,
     CompetencySerializer,
     SkillTokenSerializer)
+from competitions.search import search
 from user_auth.models import Profile
 
 
@@ -64,3 +65,12 @@ class SkillTokenView(APIView):
     def delete(self, request, id):
         skilltoken = SkillToken.objects.filter(id=id).delete()
         return Response(f'Deleted {skilltoken} objects with id: {id}')
+
+
+class SkillTokenSearchView(APIView):
+    def get(self, request):
+        query = request.GET.get('q')
+        results = search(query)
+        serialized = SkillTokenSerializer(results, many=True)
+        serialized = serialized.data
+        return Response(data=serialized)
