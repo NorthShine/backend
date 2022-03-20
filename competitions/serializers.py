@@ -5,6 +5,16 @@ from competitions.models import Competency, CompetencyLevel, SkillTag, SkillToke
 from user_auth.models import Profile
 
 
+@atomic
+def create_competencies(serializer, competencies_data):
+    instances = []
+    for competency in competencies_data:
+        instance = serializer.create(competency)
+        instances.append(instance)
+
+    return instances
+
+
 class CompetencyLevelSerializer(serializers.ModelSerializer):
     class Meta:
         model = CompetencyLevel
@@ -39,7 +49,6 @@ class CompetencySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Competency
-        depth = 1
         fields = ['name', 'level', 'user']
 
 
@@ -59,6 +68,7 @@ class SkillTokenSerializer(serializers.ModelSerializer):
         tags = validated_data.pop('tags')
         ext_id = validated_data.pop('ext_id')
         user_email = validated_data.pop('user_email')
+
         existing_tags = SkillTag.objects.filter(name__in=tags)\
             .values_list('id', flat=True)
         tags_to_create = list(filter(lambda x: x not in existing_tags, tags))
@@ -66,6 +76,12 @@ class SkillTokenSerializer(serializers.ModelSerializer):
 
         skill_token = SkillToken.objects.create(
             name=name, profile=user, ext_id=ext_id)
+
+        competencies = validated_data.pop('competencies')
+        for competency in competencies:
+            competency['skilltoken_id'] = skill_token.id
+        competencies_serializer = CompetencySerializer()
+        create_competencies(ompetencies_serializer, competencies)
 
         for name in tags_to_create:
             tag, _ = SkillTag.objects.get_or_create(name=name)
