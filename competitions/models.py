@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 
 from user_auth.models import Profile
@@ -14,6 +16,7 @@ class SkillTag(models.Model):
 
 class SkillToken(models.Model):
     name = models.TextField()
+    ext_id = models.UUIDField(default=uuid.uuid4, editable=False)
     profile = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
