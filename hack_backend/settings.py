@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'competitions',
-    'user_auth'
+    'user_auth',
+    'notifications'
 ]
 
 MIDDLEWARE = [

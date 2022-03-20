@@ -17,7 +17,8 @@ class ListProfile(APIView):
     def get(self, request, email):
         user = Profile.objects.filter(email=email)
         if not user.exists():
-            return Response(data=f'user with email {email} not found')
+            return Response(
+                data=f'user with email {email} not found', status=404)
         user = user.first()
         data = ProfileSerializer(instance=user)
         serialized = data.data

@@ -25,6 +25,7 @@ from rest_framework_simplejwt.views import (
 
 from user_auth.urls import urlpatterns as user_patterns
 from competitions.urls import urlpatterns as compet_patterns
+from notifications.urls import urlpatterns as notify_patterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,4 +34,5 @@ urlpatterns = [
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
     + user_patterns \
-    + compet_patterns
+    + compet_patterns \
+    + notify_patterns

@@ -6,3 +6,4 @@ djangorestframework-simplejwt
 flake8
 gunicorn
 django-cors-headers
+django_redis
