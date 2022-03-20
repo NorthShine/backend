@@ -81,7 +81,7 @@ class SkillTokenSerializer(serializers.ModelSerializer):
         for competency in competencies:
             competency['skilltoken_id'] = skill_token.id
         competencies_serializer = CompetencySerializer()
-        create_competencies(ompetencies_serializer, competencies)
+        create_competencies(competencies_serializer, competencies)
 
         for name in tags_to_create:
             tag, _ = SkillTag.objects.get_or_create(name=name)
